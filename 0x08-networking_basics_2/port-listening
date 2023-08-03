@@ -1,0 +1,13 @@
+#!/usr/bin/env bash
+
+# This script listens on port 98 on localhost and receives incoming text.
+
+# Check if nc command is available
+command -v nc > /dev/null
+if [ $? -ne 0 ]; then
+  echo "ERROR: The 'nc' (netcat) command is not available on this system."
+  exit 1
+fi
+
+# Listen on port 98 and receive incoming text
+nc -l 127.0.0.1 98

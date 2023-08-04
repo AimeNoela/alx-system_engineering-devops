@@ -1,23 +1,9 @@
 #!/usr/bin/env bash
+# changes the following domain resolve ips
+#   localhost from 127.0.0.1 to 127.0.0.2
+#   facebook.com from 157.240.11.35 to 8.8.8.8
 
-# This script updates the /etc/hosts file to configure localhost and facebook.com IP addresses.
-
-# Define the IP addresses
-localhost_ip="127.0.0.2"
-facebook_ip="8.8.8.8"
-
-# Check if the script is running in Docker
-if [ -f "/.dockerenv" ]; then
-    hosts_file="/etc/hosts"
-else
-    echo "ERROR: This script should be run in Docker!"
-    exit 1
-fi
-
-# Update the /etc/hosts file with the desired IP addresses
-sed -i "s/^127.0.0.1[[:space:]]localhost$/127.0.0.1\tlocalhost\n$localhost_ip\tlocalhost/" "$hosts_file"
-sed -i "s/^.*[[:space:]]facebook.com$/\n$facebook_ip\tfacebook.com/" "$hosts_file"
-
-# Display the updated /etc/hosts file for verification
-echo "Updated /etc/hosts file:"
-cat "$hosts_file"
+cp /etc/hosts ~/hosts.new
+echo "127.0.0.2		localhost" > ~/hosts.new
+echo "8.8.8.8		facebook.com" >> ~/hosts.new
+cp -f ~/hosts.new /etc/hosts
